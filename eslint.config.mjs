@@ -1,35 +1,79 @@
-// @ts-check
-import eslint from '@eslint/js';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
-import globals from 'globals';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import tseslint from 'typescript-eslint';
+import eslintPrettier from 'eslint-plugin-prettier';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
-export default tseslint.config(
-  {
-    ignores: ['eslint.config.mjs'],
-  },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
-  eslintPluginPrettierRecommended,
-  {
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        ...globals.jest,
-      },
-      sourceType: 'commonjs',
-      parserOptions: {
-        projectService: true,
-        tsconfigRootDir: import.meta.dirname,
-      },
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default [
+    ...tseslint.configs.recommended,
+    ...tseslint.configs.recommendedTypeChecked,
+    eslintConfigPrettier,
+    {
+        files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+        plugins: {
+            prettier: eslintPrettier,
+        },
+        rules: {
+            'prettier/prettier': 'error',
+            'arrow-body-style': ['error', 'as-needed'],
+            'prefer-arrow-callback': 'error',
+        },
     },
-  },
-  {
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn',
-      "prettier/prettier": ["error", { endOfLine: "auto" }],
+    {
+        files: ['**/*.ts', '**/*.tsx'],
+        languageOptions: {
+            parserOptions: {
+                project: [
+                    './tsconfig.json',
+                    './apps/*/tsconfig.json',
+                    './apps/*/tsconfig.app.json',
+                    './packages/*/tsconfig.json',
+                    './packages/*/tsconfig.lib.json',
+                ],
+                tsconfigRootDir: __dirname,
+            },
+        },
+        rules: {
+            // Type safety
+            '@typescript-eslint/no-floating-promises': 'error',
+            '@typescript-eslint/no-explicit-any': 'error',
+            '@typescript-eslint/no-unsafe-argument': 'error',
+            '@typescript-eslint/no-unsafe-assignment': 'error',
+            '@typescript-eslint/no-unsafe-call': 'error',
+            '@typescript-eslint/no-unsafe-member-access': 'error',
+
+            // Async/await
+            '@typescript-eslint/await-thenable': 'error',
+            '@typescript-eslint/no-misused-promises': 'error',
+            '@typescript-eslint/promise-function-async': 'warn',
+
+            // Code quality
+            '@typescript-eslint/prefer-nullish-coalescing': 'warn',
+            'no-console': ['error', { allow: ['warn', 'error'] }],
+
+            // Random disabled rules
+            '@typescript-eslint/no-magic-numbers': 'off',
+            '@typescript-eslint/no-extraneous-class': 'off',
+            '@typescript-eslint/class-methods-use-this': 'off',
+            '@typescript-eslint/prefer-destructuring': 'off',
+            'no-console': 'off',
+        },
     },
-  },
-);
+    {
+        ignores: [
+            '**/dist',
+            '**/*.mjs',
+            'webpack.config.js',
+            'jest.config.ts',
+            'dist/**',
+            '**/out-tsc',
+            '**/generated',
+            '**/gen',
+            '**/__tests__/**',
+            '**/?(*.)+(spec|test).[jt]s?(x)',
+        ],
+    },
+];

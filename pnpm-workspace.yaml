@@ -1,0 +1,6 @@
+# https://pnpm.io/es/supply-chain-security
+minimumReleaseAge: 2880
+
+onlyBuiltDependencies:
+    - '@nestjs/core'
+    - unrs-resolver
