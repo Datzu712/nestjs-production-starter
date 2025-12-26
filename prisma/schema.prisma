@@ -8,12 +8,13 @@ datasource db {
 }
 
 model tenant {
-  id              String        @id(map: "tenants_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id              String        @id(map: "tenants_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String        @unique(map: "tenants_name_key") @db.VarChar
+  is_multi_tenant Boolean       @default(false)
+  is_active       Boolean       @default(true)
+  tenant_user     tenant_user[]
   created_at      DateTime      @default(now()) @db.Timestamp(6)
   updated_at      DateTime      @default(now()) @db.Timestamp(6)
-  is_multi_tenant Boolean       @default(false)
-  tenant_user     tenant_user[]
 }
 
 /// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
@@ -29,7 +30,7 @@ model tenant_user {
 }
 
 model user {
-  id              String        @id(map: "users_pkey") @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  id              String        @id(map: "users_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email           String        @unique(map: "users_email_key")
   username        String
   hashed_password String
