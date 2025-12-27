@@ -12,7 +12,7 @@ export default [
     ...tseslint.configs.recommendedTypeChecked,
     eslintConfigPrettier,
     {
-        files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],
+        files: ['**/*.ts'],
         plugins: {
             prettier: eslintPrettier,
         },
@@ -23,16 +23,10 @@ export default [
         },
     },
     {
-        files: ['**/*.ts', '**/*.tsx'],
+        files: ['**/*.ts'],
         languageOptions: {
             parserOptions: {
-                project: [
-                    './tsconfig.json',
-                    './apps/*/tsconfig.json',
-                    './apps/*/tsconfig.app.json',
-                    './packages/*/tsconfig.json',
-                    './packages/*/tsconfig.lib.json',
-                ],
+                project: ['./tsconfig.base.json'],
                 tsconfigRootDir: __dirname,
             },
         },
@@ -66,8 +60,8 @@ export default [
         ignores: [
             '**/dist',
             '**/*.mjs',
-            'webpack.config.js',
-            'jest.config.ts',
+            'prisma.config.ts',
+            'jest.config.js',
             'dist/**',
             '**/out-tsc',
             '**/generated',
