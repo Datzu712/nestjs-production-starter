@@ -1,2 +1,2 @@
-export * from './errors';
+export * from './domain-errors';
 export * from './tenant.errors';

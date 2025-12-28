@@ -1,6 +1,6 @@
 import type { CreateTenantAttributes, Tenant } from '@/domain/models/tenant';
 
-export interface TenantPort {
+export interface CreateTenantPort {
     // Owner/User will be already created before reaching this use case
-    createTenant(ownerId: string, tenantData: CreateTenantAttributes): Promise<Tenant>;
+    execute(ownerId: string, tenantData: CreateTenantAttributes): Promise<Tenant>;
 }
