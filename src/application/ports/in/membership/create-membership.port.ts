@@ -1,3 +1,5 @@
-export interface MembershipPort {
-    addUserToTenant(userId: string, tenantId: string): Promise<void>;
+import type { CreateMembershipAttributes } from '@/domain/models/membership';
+
+export interface CreateMembershipPort {
+    execute(data: CreateMembershipAttributes): Promise<void>;
 }

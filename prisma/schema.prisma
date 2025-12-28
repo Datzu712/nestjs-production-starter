@@ -13,8 +13,6 @@ model tenant {
   created_at  DateTime      @default(now()) @db.Timestamp(6)
   updated_at  DateTime      @default(now()) @db.Timestamp(6)
   is_active   Boolean       @default(true)
-  owner_id    String        @db.Uuid
-  owner       user          @relation("TenantOwner", fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
   tenant_user tenant_user[]
 }
 
@@ -22,6 +20,7 @@ model tenant_user {
   tenant_id  String   @db.Uuid
   user_id    String   @db.Uuid
   created_at DateTime @default(now()) @db.Timestamp(6)
+  role       String   @db.VarChar
   tenant     tenant   @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tenant_user_tenant_id_fk")
   user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tenant_user_user_id_fk")
 
@@ -36,6 +35,5 @@ model user {
   is_active       Boolean       @default(true)
   created_at      DateTime      @default(now()) @db.Timestamptz(6)
   updated_at      DateTime      @default(now()) @db.Timestamptz(6)
-  owned_tenants   tenant[]      @relation("TenantOwner")
   tenant_user     tenant_user[]
 }

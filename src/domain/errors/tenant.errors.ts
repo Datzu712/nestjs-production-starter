@@ -7,3 +7,11 @@ export class TenantCreationError extends DomainError {
         super('Failed to create tenant', cause);
     }
 }
+
+export class TenantNotFoundError extends DomainError {
+    readonly code = 'TENANT_NOT_FOUND';
+
+    constructor() {
+        super('The specified tenant was not found');
+    }
+}

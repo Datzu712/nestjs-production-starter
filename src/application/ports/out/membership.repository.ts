@@ -1,4 +1,6 @@
+import type { CreateMembershipAttributes, Membership } from '@/domain/models/membership';
+
 export interface MembershipRepository {
-    addUserToTenant(data: { userId: string; tenantId: string }): Promise<void>;
-    isUserMemberOfTenant(data: { userId: string; tenantId: string }): Promise<boolean>;
+    addUserToTenant(data: CreateMembershipAttributes): Promise<void>;
+    find(query: Partial<Membership>): Promise<Membership | null>;
 }
