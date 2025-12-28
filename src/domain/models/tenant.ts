@@ -2,5 +2,6 @@ export interface Tenant {
     id: string;
     name: string;
     isActive: boolean;
-    isMultiTenant: boolean;
 }
+
+export type CreateTenantAttributes = Pick<Tenant, 'isActive' | 'name'>;

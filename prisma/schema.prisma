@@ -8,20 +8,19 @@ datasource db {
 }
 
 model tenant {
-  id              String        @id(map: "tenants_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String        @unique(map: "tenants_name_key") @db.VarChar
-  is_multi_tenant Boolean       @default(false)
-  is_active       Boolean       @default(true)
-  tenant_user     tenant_user[]
-  created_at      DateTime      @default(now()) @db.Timestamp(6)
-  updated_at      DateTime      @default(now()) @db.Timestamp(6)
+  id          String        @id(map: "tenants_pkey") @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String        @unique(map: "tenants_name_key") @db.VarChar
+  created_at  DateTime      @default(now()) @db.Timestamp(6)
+  updated_at  DateTime      @default(now()) @db.Timestamp(6)
+  is_active   Boolean       @default(true)
+  owner_id    String        @db.Uuid
+  owner       user          @relation("TenantOwner", fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  tenant_user tenant_user[]
 }
 
-/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
 model tenant_user {
   tenant_id  String   @db.Uuid
   user_id    String   @db.Uuid
-  role       String   @default("user")
   created_at DateTime @default(now()) @db.Timestamp(6)
   tenant     tenant   @relation(fields: [tenant_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tenant_user_tenant_id_fk")
   user       user     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "tenant_user_user_id_fk")
@@ -37,5 +36,6 @@ model user {
   is_active       Boolean       @default(true)
   created_at      DateTime      @default(now()) @db.Timestamptz(6)
   updated_at      DateTime      @default(now()) @db.Timestamptz(6)
+  owned_tenants   tenant[]      @relation("TenantOwner")
   tenant_user     tenant_user[]
 }

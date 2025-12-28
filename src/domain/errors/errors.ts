@@ -1,32 +1,17 @@
-export class DomainError extends Error {
-    constructor(
-        message: string,
-        public readonly code: string,
-    ) {
+export abstract class DomainError extends Error {
+    public abstract readonly code: string;
+    readonly cause?: unknown;
+
+    constructor(message: string, cause?: unknown) {
+        super(message);
+        this.name = this.constructor.name;
+        this.cause = cause;
+    }
+}
+export class ValidationError extends DomainError {
+    readonly code = 'VALIDATION_ERROR';
+
+    constructor(message = 'Validation error') {
         super(message);
     }
 }
-
-// Single tenant errors
-export class UserAlreadyHasTenantError extends DomainError {
-    constructor(userId: string) {
-        super(`User with ID ${userId} already has a tenant assigned.`, 'USER_ALREADY_HAS_TENANT');
-    }
-}
-
-export class TenantNotFoundError extends DomainError {
-    constructor(tenantId: string) {
-        super(`Tenant with ID ${tenantId} not found.`, 'TENANT_NOT_FOUND');
-    }
-}
-
-export class UserAlreadyMemberOfTenantError extends DomainError {
-    constructor(userId: string, tenantId: string) {
-        super(
-            `User with ID ${userId} is already a member of tenant with ID ${tenantId}.`,
-            'USER_ALREADY_MEMBER_OF_TENANT',
-        );
-    }
-}
-
-// Multi-tenant errors...

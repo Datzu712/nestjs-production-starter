@@ -1,0 +1,36 @@
+import { validateCreateTenant } from '@/domain/validators/tenant.validator';
+import { TenantCreationError } from '@/domain/errors/tenant.errors';
+import type { CreateTenantAttributes, Tenant } from '@/domain/models/tenant';
+import type { TenantPort } from '../ports/in/tenant.port';
+import type { TenantRepository } from '../ports/out/tenant.repository';
+import type { MembershipRepository } from '../ports/out/membership.repository';
+
+export class TenantUseCases implements TenantPort {
+    constructor(
+        private readonly tenantRepository: TenantRepository,
+        private readonly membershipRepository: MembershipRepository,
+    ) {}
+
+    public async createTenant(ownerId: string, tenantData: CreateTenantAttributes): Promise<Tenant> {
+        validateCreateTenant(tenantData);
+
+        let tenant: Tenant | null = null;
+
+        try {
+            tenant = await this.tenantRepository.create(tenantData);
+
+            await this.membershipRepository.addUserToTenant({
+                userId: ownerId,
+                tenantId: tenant.id,
+            });
+
+            return tenant;
+        } catch (error) {
+            if (tenant) {
+                await this.tenantRepository.delete(tenant.id);
+            }
+
+            throw new TenantCreationError(error);
+        }
+    }
+}

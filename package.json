@@ -13,7 +13,7 @@
         "debug": "nest start --debug --watch",
         "prod": "node dist/main",
         "lint": "eslint \"{src,test}/**/*.ts\" --fix",
-        "test": "jest --config jest.config.ts",
+        "test": "jest --config jest.config.js",
         "format:check": "prettier --check \"src/**/*.ts\"",
         "test:watch": "jest --watch",
         "test:cov": "jest --coverage",
