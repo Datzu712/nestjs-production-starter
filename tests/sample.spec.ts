@@ -1,7 +1,7 @@
-import { UserAlreadyHasTenantError } from '@/domain/errors/errors';
+import { TenantCreationError } from '@/domain/errors/tenant.errors';
 
 describe('Test test test test test TEST TEST', () => {
     it('should pass', () => {
-        expect(UserAlreadyHasTenantError).toBeInstanceOf(Object);
+        expect(TenantCreationError).toBeInstanceOf(Object);
     });
 });
