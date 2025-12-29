@@ -1,7 +1,8 @@
-import { CreateUserUseCase } from '@/application/use-case/user/create-user.usecase';
 import { Body, Controller, Inject, Post, ValidationPipe } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
+import type { CreateUserUseCase } from '@/application/use-case/user/create-user.usecase';
 import { DI_TOKENS } from '@/shared/constants/di-tokens';
+
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller({
     version: '1',
