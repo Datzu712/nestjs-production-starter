@@ -15,3 +15,11 @@ export class UserCreationError extends DomainError {
         super('Failed to create user', cause);
     }
 }
+
+export class UserNotFoundError extends DomainError {
+    readonly code = 'USER_NOT_FOUND';
+
+    constructor() {
+        super('User not found');
+    }
+}

@@ -1,8 +1,8 @@
-import type { CreateMembershipPort } from '@/application/ports/in/membership/create-membership.port';
+import type { CreateMembershipPort } from '@/application/ports/in/membership/create-membership';
 import type { MembershipRepository } from '@/application/ports/out/membership.repository';
 
 import type { TenantRepository } from '@/application/ports/out/tenant.repository';
-import { TenantNotFoundError } from '@/domain/errors';
+import { TenantNotFoundError } from '@/domain/errors/tenant.errors';
 import { UserAlreadyAssignedToTenantError, UserAssignmentError } from '@/domain/errors/membership.errors';
 import { CreateMembershipAttributes } from '@/domain/models/membership';
 

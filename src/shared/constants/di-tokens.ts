@@ -1,0 +1,4 @@
+export const DI_TOKENS = {
+    USER_REPOSITORY: Symbol('USER_REPOSITORY'),
+    CREATE_USER_USE_CASE: Symbol('CREATE_USER_USE_CASE'),
+};

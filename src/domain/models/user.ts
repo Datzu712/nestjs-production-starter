@@ -6,4 +6,4 @@ export interface User {
     isActive: boolean;
 }
 
-export type CreateUserAttributes = Pick<User, 'email' | 'username' | 'isActive' | 'hashedPassword'>;
+export type CreateUserAttributes = Pick<User, 'email' | 'username' | 'isActive'> & { password: string };

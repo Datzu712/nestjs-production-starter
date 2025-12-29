@@ -1,4 +1,4 @@
-import type { CreateUserPort } from '@/application/ports/in/user/create-user.port';
+import type { CreateUserPort } from '@/application/ports/in/user/create-user';
 import type { UserRepository } from '@/application/ports/out/user.repository';
 
 import type { CreateUserAttributes, User } from '@/domain/models/user';

@@ -3,7 +3,7 @@ import { validateCreateTenant } from '@/domain/validators/tenant.validator';
 import { TenantCreationError } from '@/domain/errors/tenant.errors';
 import { MEMBERSHIP_ROLES } from '@/domain/constants/membership-roles';
 
-import type { CreateTenantPort } from '../../ports/in/tenant/create-tenant.port';
+import type { CreateTenantPort } from '../../ports/in/tenant/create-tenant';
 import type { TenantRepository } from '../../ports/out/tenant.repository';
 import type { MembershipRepository } from '../../ports/out/membership.repository';
 
