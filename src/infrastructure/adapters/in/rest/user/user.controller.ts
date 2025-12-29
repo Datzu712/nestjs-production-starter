@@ -1,13 +1,14 @@
 import { CreateUserUseCase } from '@/application/use-case/user/create-user.usecase';
-import { Body, Controller, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Inject, Post, ValidationPipe } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { DI_TOKENS } from '@/shared/constants/di-tokens';
 
 @Controller({
     version: '1',
     path: 'users',
 })
 export class UserController {
-    constructor(private readonly createUserUseCase: CreateUserUseCase) {}
+    constructor(@Inject(DI_TOKENS.CREATE_USER_USE_CASE) private readonly createUserUseCase: CreateUserUseCase) {}
 
     @Post()
     async createUser(
