@@ -1,17 +1,21 @@
 import { DomainError } from './domain-errors';
+import { ErrorCodes } from './error-codes';
 
 export class TenantCreationError extends DomainError {
-    readonly code = 'TENANT_CREATION_ERROR';
-
     constructor(cause?: unknown) {
-        super('Failed to create tenant', cause);
+        super({
+            message: 'Failed to create tenant',
+            cause,
+            code: ErrorCodes.INTERNAL_ERROR,
+        });
     }
 }
 
 export class TenantNotFoundError extends DomainError {
-    readonly code = 'TENANT_NOT_FOUND';
-
     constructor() {
-        super('The specified tenant was not found');
+        super({
+            message: 'The specified tenant was not found',
+            code: ErrorCodes.TENANT_NOT_FOUND,
+        });
     }
 }

@@ -1,17 +1,30 @@
-export abstract class DomainError extends Error {
-    public abstract readonly code: string;
-    readonly cause?: unknown;
+import { ErrorCodes, type ErrorCode } from './error-codes';
 
-    constructor(message: string, cause?: unknown) {
+export interface DomainErrorOptions {
+    cause?: unknown;
+    message: string;
+    code: ErrorCode;
+}
+
+export class DomainError extends Error {
+    public readonly code: ErrorCode;
+    public readonly cause?: unknown;
+
+    constructor({ message, cause, code }: DomainErrorOptions) {
         super(message);
+
         this.name = this.constructor.name;
         this.cause = cause;
+        this.code = code;
+
+        // Error.captureStackTrace(this, MyError);
     }
 }
 export class ValidationError extends DomainError {
-    readonly code = 'VALIDATION_ERROR';
-
     constructor(message = 'Validation error') {
-        super(message);
+        super({
+            message,
+            code: ErrorCodes.VALIDATION_ERROR,
+        });
     }
 }

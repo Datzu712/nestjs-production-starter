@@ -1,17 +1,21 @@
 import { DomainError } from './domain-errors';
+import { ErrorCodes } from './error-codes';
 
 export class UserAlreadyAssignedToTenantError extends DomainError {
-    readonly code = 'USER_ALREADY_ASSIGNED_TO_TENANT';
-
     constructor() {
-        super('The user is already assigned to the specified tenant');
+        super({
+            message: 'The user is already assigned to the specified tenant',
+            code: ErrorCodes.MEMBERSHIP_ALREADY_EXISTS,
+        });
     }
 }
 
 export class UserAssignmentError extends DomainError {
-    readonly code = 'USER_CANNOT_BE_ADDED_TO_TENANT';
-
     constructor(cause?: unknown) {
-        super('Failed to add user to the tenant', cause);
+        super({
+            message: 'Failed to add user to the tenant',
+            cause,
+            code: ErrorCodes.INTERNAL_ERROR,
+        });
     }
 }

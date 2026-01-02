@@ -60,7 +60,6 @@ export class PrismaUserRepository implements UserRepository {
             id: prismaUser.id,
             email: prismaUser.email,
             username: prismaUser.username,
-            hashedPassword: prismaUser.hashed_password,
             isActive: prismaUser.is_active,
         };
     }
