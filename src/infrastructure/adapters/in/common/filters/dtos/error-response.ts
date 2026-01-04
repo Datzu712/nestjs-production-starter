@@ -41,6 +41,11 @@ export interface ProblemDetails {
         name: string;
         reason: string;
     }[];
+
+    /**
+     * instance - A URI reference that identifies the specific occurrence of the problem. (in our case its just the endpoint path)
+     */
+    instance?: string;
 }
 
 export class ErrorResponseDto implements ProblemDetails {
@@ -79,6 +84,26 @@ export class ErrorResponseDto implements ProblemDetails {
         example: '550e8400-e29b-41d4-a716-446655440000',
     })
     id!: string;
+
+    @ApiProperty({
+        description: 'List of invalid parameters, if applicable',
+        example: [
+            { name: 'email', reason: 'Invalid email format' },
+            { name: 'password', reason: 'Password too short' },
+        ],
+        required: false,
+    })
+    invalidParams?: {
+        name: string;
+        reason: string;
+    }[];
+
+    @ApiProperty({
+        description: 'A URI reference that identifies the specific occurrence of the problem',
+        example: '/rest/v1/users/123',
+        required: false,
+    })
+    instance?: string;
 
     constructor(partial: ErrorResponseDto) {
         Object.assign(this, partial);

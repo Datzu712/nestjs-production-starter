@@ -36,12 +36,13 @@ export class DomainExceptionFilter implements ExceptionFilter {
         }
 
         const errorResponse = new ErrorResponseDto({
-            type: `${this.config.get('API_DOCS_URL')}/errors/${exception.code}`,
+            type: `urn:problem:${exception.code}`,
             title: exceptionTitleError,
             status: httpStatus,
             detail: exception.message,
             errorCode: exception.code,
             id: exception.timestamp.toISOString(),
+            instance: request.url,
         });
 
         reply.status(httpStatus).send(errorResponse);
