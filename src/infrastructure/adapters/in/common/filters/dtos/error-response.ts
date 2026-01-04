@@ -36,6 +36,11 @@ export interface ProblemDetails {
      * id - A unique identifier for this specific occurrence of the problem.
      */
     id: string;
+
+    invalidParams?: {
+        name: string;
+        reason: string;
+    }[];
 }
 
 export class ErrorResponseDto implements ProblemDetails {
