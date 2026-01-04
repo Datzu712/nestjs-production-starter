@@ -48,6 +48,7 @@ export class DomainExceptionFilter implements ExceptionFilter {
         reply.status(httpStatus).send(errorResponse);
     }
 
+    // todo: add pino logger
     private logError(
         exception: DomainError,
         level: 'debug' | 'info' | 'warn' | 'error',

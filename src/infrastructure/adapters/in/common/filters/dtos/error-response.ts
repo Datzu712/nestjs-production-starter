@@ -17,7 +17,7 @@ export interface ProblemDetails {
     title: string;
 
     /**
-     * The HTTP status code ([RFC7231], Section 6)
+     * The HTTP status code
      */
     status: number;
 
