@@ -1,21 +1,41 @@
 import { DomainError } from './domain-errors';
 import { ErrorCodes } from './error-codes';
 
-export class TenantCreationError extends DomainError {
-    constructor(cause?: unknown) {
+/**
+ * Tenant already exists error
+ */
+export class TenantAlreadyExistsError extends DomainError {
+    constructor(identifier: string, identifierType: 'slug' | 'id' = 'slug') {
         super({
-            message: 'Failed to create tenant',
-            cause,
-            code: ErrorCodes.INTERNAL_ERROR,
+            code: ErrorCodes.TENANT_ALREADY_EXISTS,
+            message: `Tenant with ${identifierType} "${identifier}" already exists`,
+            context: { identifier, identifierType },
         });
     }
 }
 
+/**
+ * Tenant not found error
+ */
 export class TenantNotFoundError extends DomainError {
-    constructor() {
+    constructor(identifier: string) {
         super({
-            message: 'The specified tenant was not found',
             code: ErrorCodes.TENANT_NOT_FOUND,
+            message: `Tenant "${identifier}" not found`,
+            context: { identifier },
+        });
+    }
+}
+
+/**
+ * Tenant creation failed error
+ */
+export class TenantCreationError extends DomainError {
+    constructor(cause?: unknown) {
+        super({
+            code: ErrorCodes.INTERNAL_ERROR,
+            message: 'Failed to create tenant',
+            cause,
         });
     }
 }

@@ -1,6 +1,6 @@
 import type { CreateTenantAttributes, Tenant } from '@/domain/models/tenant';
 import { validateCreateTenant } from '@/domain/validators/tenant.validator';
-import { TenantCreationError } from '@/domain/errors/tenant.errors';
+import { TenantCreationError } from '@/domain/errors';
 import { MEMBERSHIP_ROLES } from '@/domain/constants/membership-roles';
 
 import type { CreateTenantPort } from '../../ports/in/tenant/create-tenant';

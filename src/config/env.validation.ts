@@ -1,5 +1,5 @@
 import { plainToInstance } from 'class-transformer';
-import { IsEnum, IsOptional, IsString, validateSync, ValidatorOptions } from 'class-validator';
+import { IsEnum, IsNumber, IsOptional, IsString, IsUrl, validateSync, ValidatorOptions } from 'class-validator';
 import { IEnvironmentVariables } from './env';
 
 enum Environment {
@@ -9,6 +9,13 @@ enum Environment {
 }
 
 class EnvironmentVariables implements IEnvironmentVariables {
+    @IsOptional()
+    @IsNumber()
+    HTTP_PORT?: number;
+
+    @IsUrl({ require_tld: false })
+    API_DOCS_URL!: string;
+
     @IsEnum(Environment)
     NODE_ENV!: 'development' | 'production' | 'test';
 

@@ -2,8 +2,7 @@ import type { CreateMembershipPort } from '@/application/ports/in/membership/cre
 import type { MembershipRepository } from '@/application/ports/out/membership.repository';
 
 import type { TenantRepository } from '@/application/ports/out/tenant.repository';
-import { TenantNotFoundError } from '@/domain/errors/tenant.errors';
-import { UserAlreadyAssignedToTenantError, UserAssignmentError } from '@/domain/errors/membership.errors';
+import { TenantNotFoundError, MembershipAlreadyExistsError, MembershipCreationError } from '@/domain/errors';
 import { CreateMembershipAttributes } from '@/domain/models/membership';
 
 export class CreateMembershipUseCase implements CreateMembershipPort {
@@ -15,18 +14,18 @@ export class CreateMembershipUseCase implements CreateMembershipPort {
     async execute({ tenantId, userId, role }: CreateMembershipAttributes): Promise<void> {
         const tenantExists = await this.tenantRepo.find({ id: tenantId });
         if (!tenantExists) {
-            throw new TenantNotFoundError();
+            throw new TenantNotFoundError(tenantId);
         }
 
         const isMemberAlready = await this.membershipRepo.find({ userId, tenantId });
         if (isMemberAlready) {
-            throw new UserAlreadyAssignedToTenantError();
+            throw new MembershipAlreadyExistsError(userId, tenantId);
         }
 
         try {
             await this.membershipRepo.addUserToTenant({ userId, tenantId, role });
         } catch (error) {
-            throw new UserAssignmentError(error);
+            throw new MembershipCreationError(error);
         }
     }
 }

@@ -1,5 +1,7 @@
 {
     "compilerOptions": {
+        "module": "nodenext",
+        "target": "es2024",
         "importHelpers": true,
         "isolatedModules": true,
         "baseUrl": ".",
